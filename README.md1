@@ -1,0 +1,95 @@
+import os
+
+FILE_NAME = "profiles.txt"
+
+
+def create_profile():
+    print("\n=== Create New Profile ===")
+
+    name = input("Enter Name: ")
+    age = input("Enter Age: ")
+    profession = input("Enter Profession: ")
+    email = input("Enter Email: ")
+    bio = input("Enter Short Bio: ")
+
+    profile_card = f"""
+====================================
+         USER PROFILE CARD
+====================================
+Name       : {name}
+Age        : {age}
+Profession : {profession}
+Email      : {email}
+Bio        : {bio}
+====================================
+"""
+
+    print(profile_card)
+
+    save = input("Save profile? (y/n): ").lower()
+
+    if save == "y":
+        with open(FILE_NAME, "a", encoding="utf-8") as file:
+            file.write(profile_card + "\n")
+
+        print("Profile saved successfully!")
+
+
+def view_profiles():
+    print("\n=== Saved Profiles ===")
+
+    if not os.path.exists(FILE_NAME):
+        print("No profiles found.")
+        return
+
+    with open(FILE_NAME, "r", encoding="utf-8") as file:
+        content = file.read()
+
+    if content.strip():
+        print(content)
+    else:
+        print("No profiles available.")
+
+
+def delete_profiles():
+    if os.path.exists(FILE_NAME):
+        confirm = input(
+            "Delete all saved profiles? (y/n): "
+        ).lower()
+
+        if confirm == "y":
+            open(FILE_NAME, "w").close()
+            print("All profiles deleted successfully.")
+    else:
+        print("No profiles found.")
+
+
+def main():
+    while True:
+        print("\n===== USER PROFILE CARD GENERATOR =====")
+        print("1. Create Profile")
+        print("2. View Saved Profiles")
+        print("3. Delete All Profiles")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            create_profile()
+
+        elif choice == "2":
+            view_profiles()
+
+        elif choice == "3":
+            delete_profiles()
+
+        elif choice == "4":
+            print("Thank you for using User Profile Card Generator!")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()
